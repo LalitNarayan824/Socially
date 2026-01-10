@@ -1,4 +1,3 @@
-import { currentUser } from "@clerk/nextjs/server"
 import UnauthenticatedSidebar from "./UnauthenticatedSidebar";
 import { Card, CardContent } from "./ui/card";
 import Link from "next/link";
@@ -7,6 +6,7 @@ import { getUserByClerkId } from "@/actions/user.action";
 
 import { Separator } from "./ui/separator";
 import { Avatar, AvatarImage } from "./ui/avatar";
+import { currentUser } from "@clerk/nextjs/server";
 
 
 async function Sidebar() {
@@ -26,7 +26,7 @@ async function Sidebar() {
               className="flex flex-col items-center justify-center"
             >
               <Avatar className="w-20 h-20 border-2 ">
-                <AvatarImage src={user.image || "/avatar.png"} />
+                <AvatarImage src={user.image || ""} />
               </Avatar>
 
               <div className="mt-4 space-y-1">
@@ -35,7 +35,9 @@ async function Sidebar() {
               </div>
             </Link>
 
-            {user.bio && <p className="mt-3 text-sm text-muted-foreground">{user.bio}</p>}
+            {user.bio && (
+              <p className="mt-3 text-sm text-muted-foreground">{user.bio}</p>
+            )}
 
             <div className="w-full">
               <Separator className="my-4" />
@@ -61,7 +63,11 @@ async function Sidebar() {
               <div className="flex items-center text-muted-foreground">
                 <LinkIcon className="w-4 h-4 mr-2 shrink-0" />
                 {user.website ? (
-                  <a href={`${user.website}`} className="hover:underline truncate" target="_blank">
+                  <a
+                    href={`${user.website}`}
+                    className="hover:underline truncate"
+                    target="_blank"
+                  >
                     {user.website}
                   </a>
                 ) : (
@@ -76,4 +82,4 @@ async function Sidebar() {
   );
 }
 
-export default Sidebar
+export default Sidebar;

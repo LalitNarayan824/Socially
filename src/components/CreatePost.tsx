@@ -7,8 +7,9 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import { Textarea } from "./ui/textarea";
 import { ImageIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { Button } from "./ui/button";
-// import { createPost } from "@/actions/post.action";
-// import toast from "react-hot-toast";
+import toast from "react-hot-toast";
+import { createPost } from "@/actions/post.action";
+
 // import ImageUpload from "./ImageUpload";
 
 function CreatePost() {
@@ -19,29 +20,30 @@ function CreatePost() {
   const [showImageUpload, setShowImageUpload] = useState(false);
 
   const handleSubmit = async () => {
-    // if (!content.trim() && !imageUrl) return;
+    if (!content.trim() && !imageUrl) return;
 
-    // setIsPosting(true);
-    // try {
-    //   const result = await createPost(content, imageUrl);
-    //   if (result?.success) {
-    //     // reset the form
-    //     setContent("");
-    //     setImageUrl("");
-    //     setShowImageUpload(false);
+    setIsPosting(true);
+    try {
+      const result = await createPost(content, imageUrl);
+      if (result?.success) {
+        // reset the form
+        setContent("");
+        setImageUrl("");
+        setShowImageUpload(false);
 
-    //     toast.success("Post created successfully");
-    //   }
-    // } catch (error) {
-    //   console.error("Failed to create post:", error);
-    //   toast.error("Failed to create post");
-    // } finally {
-    //   setIsPosting(false);
-    // }
+        toast.success("Post created successfully");
+      }
+    } catch (error) {
+      console.error("Failed to create post:", error);
+      toast.error("Failed to create post");
+    } finally {
+      setIsPosting(false);
+    }
   };
 
   return (
     <Card className="mb-6">
+    
       <CardContent className="pt-6">
         <div className="space-y-4">
           <div className="flex space-x-4">
@@ -50,7 +52,7 @@ function CreatePost() {
             </Avatar>
             <Textarea
               placeholder="What's on your mind?"
-              className="min-h-25 resize-none border-none focus-visible:ring-0 p-0 text-base"
+              className="min-h-25 resize-none border-none focus-visible:ring-0 p-2 text-base"
               value={content}
               onChange={(e) => setContent(e.target.value)}
               disabled={isPosting}
